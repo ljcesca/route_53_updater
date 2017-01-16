@@ -1,7 +1,8 @@
 require 'aws-sdk'
 require 'yaml'
 
-config_path = ARGV.first
+config_path = ARGV[0]
+touch_file = ARGV[1]
 
 if config_path.nil? || config_path.empty?
   puts 'A path to a config file is required'
@@ -49,4 +50,10 @@ config['zones'].each do |zone|
       changes: changes
     }
   )
+end
+
+exit if touch_file.nil? || touch_file.empty?
+
+File.open(touch_file, 'w') do |f|
+  f << Time.now
 end
